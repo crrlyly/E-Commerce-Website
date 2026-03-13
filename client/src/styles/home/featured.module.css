@@ -1,0 +1,9 @@
+@media (max-width: 890px) {
+    .gridColsChange{
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .changeHeight{
+        height: 70rem;
+    }
+}

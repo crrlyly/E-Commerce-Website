@@ -1,0 +1,25 @@
+@media (max-width: 1104px) {
+    .hideContainer{
+        display:none;
+    }
+
+    .leftContainer{
+        width:100%;
+    }
+
+    .addMargin{
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 506px) {
+    .noMarginLeft{
+        margin-left:0;
+    }
+}
+
+@media (min-width: 1540px) {
+    .extendHeight{
+        height: 70%;
+    }
+}

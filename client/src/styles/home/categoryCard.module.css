@@ -1,0 +1,11 @@
+@media (max-width: 1030px) {
+  .hideButton{
+    display:none;
+  }
+}
+
+@media (max-width: 767px) {
+  .hideButton{
+    display:inline-block;
+  }
+}
