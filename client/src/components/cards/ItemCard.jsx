@@ -52,7 +52,7 @@ export default function ItemCard({ product }) {
 
         <img
           className="absolute w-full h-full object-cover z-0 top-0 left-0 rounded-t-2xl"
-          src={Clothes}
+          src={`/images/${product.image}`}
           alt=""
         />
       </div>

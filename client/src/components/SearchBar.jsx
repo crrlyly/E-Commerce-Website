@@ -25,7 +25,7 @@ export default function SearchBar({ searchOpen, setSearchOpen }) {
           </div>
         </form>
         <h1 className="text-center mt-5">
-          Press Enter to search or Esc to close
+          Press Enter to search or click anywhere to close
         </h1>
       </div>
     </div>
