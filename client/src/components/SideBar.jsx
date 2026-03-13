@@ -13,7 +13,7 @@ export default function SideBar({ ifOpen, close }) {
       >
         <div className="flex items-center px-5 mb-8">
           <h1 className="text-2xl uppercase">Store</h1>
-          <button className="ml-auto">
+          <button className="ml-auto cursor-pointer">
             <span onClick={close} class="material-symbols-outlined">
               close
             </span>

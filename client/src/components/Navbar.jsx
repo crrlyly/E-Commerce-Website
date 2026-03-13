@@ -2,7 +2,6 @@ import { useState } from "react";
 import SideBar from "./SideBar";
 import SearchBar from "./SearchBar";
 
-
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -17,7 +16,7 @@ function Navbar() {
           {/* Mobile only */}
           <button
             onClick={toggle}
-            className="px-3 py-1 font-semibold text-black md:hidden"
+            className="px-3 py-1 font-semibold text-black md:hidden cursor-pointer"
           >
             <span className="material-symbols-outlined text-2xl! leading-none">
               menu
@@ -30,42 +29,63 @@ function Navbar() {
           </h1>
         </div>
 
-
-        <div className="hidden md:flex items-center gap-7 text-slate-600 font-medium">
-          <a href="">Home</a>
-          <a href="">Shop</a>
-          <a href="">Lookbook</a>
-          <a href="">About</a>
+        <div className=" hidden md:flex items-center gap-7 text-slate-600 font-medium">
+          <a className="transition:text duration-200 hover:text-black" href="">
+            Home
+          </a>
+          <a className="transition:text duration-200 hover:text-black" href="">
+            Shop
+          </a>
+          <a className="transition:text duration-200 hover:text-black" href="">
+            Lookbook
+          </a>
+          <a className="transition:text duration-200 hover:text-black" href="">
+            About
+          </a>
           <div className="bg-red-400 px-3 py-[.2rem] rounded-2xl text-white font-semibold flex items-center gap-2 text-[.8rem]">
             <span class="material-symbols-outlined">sell</span>30% OFF
           </div>
         </div>
 
         <div className="flex items-center gap-3 md:gap-5">
-          <button onClick={() => setSearchOpen(true)} className="px-1 py-1 cursor-pointer font-semibold text-slate-600">
-            <span className="material-symbols-outlined text-2xl! leading-none">
+          <button
+            onClick={() => setSearchOpen(true)}
+            className="px-2 py-2 
+          cursor-pointer font-semibold text-slate-600 hover:bg-red-100 flex 
+          justify-center items-center rounded-[9px]"
+          >
+            <span className="material-symbols-outlined text-[1.4rem]! leading-none">
               search
             </span>
           </button>
 
-          <button className="px-1 py-1 font-semibold text-slate-600 relative cursor-pointer">
+          <button
+            className="px-2 py-2  font-semibold text-slate-600 relative cursor-pointer hover:bg-red-100 flex 
+          justify-center items-center rounded-[9px]"
+          >
             <div className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-black text-[10px] text-white">
               0
             </div>
-            <span className="material-symbols-outlined text-2xl! leading-none">
+            <span className="material-symbols-outlined text-[1.4rem]! leading-none">
               shopping_bag
             </span>
           </button>
 
-          <button className="px-1 py-1 font-semibold text-slate-600 cursor-pointer">
-            <span className="material-symbols-outlined text-2xl! leading-none">
+          <button
+            className="px-2 py-2  font-semibold text-slate-600 cursor-pointer hover:bg-red-100 flex 
+          justify-center items-center rounded-[9px]"
+          >
+            <span className="material-symbols-outlined text-[1.4rem]! leading-none">
               account_circle
             </span>
           </button>
         </div>
       </nav>
       <SideBar ifOpen={isOpen} close={close}></SideBar>
-      <SearchBar searchOpen={searchOpen} setSearchOpen={setSearchOpen}></SearchBar>
+      <SearchBar
+        searchOpen={searchOpen}
+        setSearchOpen={setSearchOpen}
+      ></SearchBar>
     </>
   );
 }
