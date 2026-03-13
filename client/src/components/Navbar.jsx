@@ -1,7 +1,11 @@
 import { useState } from "react";
 import SideBar from "./SideBar";
+import SearchBar from "./SearchBar";
+
+
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const close = () => setIsOpen(false);
   const toggle = () => setIsOpen((v) => !v);
@@ -38,13 +42,13 @@ function Navbar() {
         </div>
 
         <div className="flex items-center gap-3 md:gap-5">
-          <button className="px-1 py-1 font-semibold text-slate-600">
+          <button onClick={() => setSearchOpen(true)} className="px-1 py-1 cursor-pointer font-semibold text-slate-600">
             <span className="material-symbols-outlined text-2xl! leading-none">
               search
             </span>
           </button>
 
-          <button className="px-1 py-1 font-semibold text-slate-600 relative">
+          <button className="px-1 py-1 font-semibold text-slate-600 relative cursor-pointer">
             <div className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-black text-[10px] text-white">
               0
             </div>
@@ -53,7 +57,7 @@ function Navbar() {
             </span>
           </button>
 
-          <button className="px-1 py-1 font-semibold text-slate-600">
+          <button className="px-1 py-1 font-semibold text-slate-600 cursor-pointer">
             <span className="material-symbols-outlined text-2xl! leading-none">
               account_circle
             </span>
@@ -61,6 +65,7 @@ function Navbar() {
         </div>
       </nav>
       <SideBar ifOpen={isOpen} close={close}></SideBar>
+      <SearchBar searchOpen={searchOpen} setSearchOpen={setSearchOpen}></SearchBar>
     </>
   );
 }

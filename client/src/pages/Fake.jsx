@@ -1,9 +1,9 @@
-import SideBar from "../components/SideBar";
+import SearchBar from "../components/SearchBar";
 
 function Fake() {
   return (
     <>
-      <SideBar></SideBar>
+      <SearchBar></SearchBar>
     </>
   );
 }
