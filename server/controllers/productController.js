@@ -2,7 +2,7 @@ import db from "../config/db.js";
 
 export async function getAllProducts(req, res){
     try {
-        const [rows] = await db.query("SELECT * FROM product JOIN category using (category_id)")
+        const [rows] = await db.query("SELECT p.pid, p.pname, p.description, p.price, p.quantity, p.image as productImage, p.category_id, p.featured, c.category_name, c.image as categoryImage FROM product p JOIN category c using (category_id)")
         res.json(rows)
     } catch (error) {
         console.error("Error fetching products: ", error)
@@ -27,7 +27,7 @@ export async function getProductById(req, res){
 
 export async function getFeaturedProducts(req, res){
     try {
-        const [rows] = await db.query("SELECT * from product JOIN category using (category_id) where featured = TRUE")
+        const [rows] = await db.query("SELECT p.pid, p.pname, p.description, p.price, p.quantity, p.image as productImage, p.category_id, p.featured, c.category_name, c.image as categoryImage from product p JOIN category c using (category_id) where featured = TRUE")
         return res.json(rows)
     } catch (error) {
         console.error("Error fetching products:", error)

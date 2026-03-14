@@ -2,10 +2,21 @@ import ItemCard from "../cards/ItemCard";
 import PageTurner from "../PageTurner";
 import { useState, useEffect } from "react";
 import { getProducts } from "../../services/productsApi";
+import { getCategories } from "../../services/categoryApi";
+// import DropDown from "../DropDown";
+
+const sort = [
+  "Featured",
+  "Newest",
+  "Price: Low to High",
+  "Price: High to Low",
+  "Heightest Rated",
+];
 
 export default function ProductsPage() {
   const [page, setPage] = useState(1);
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     async function loadProducts() {
@@ -15,10 +26,19 @@ export default function ProductsPage() {
     loadProducts();
   }, [page]);
 
-  //get visible products
   const start = (page - 1) * 8;
   const end = Math.min(products.length, page * 8);
   const visibleProducts = products.slice(start, end);
+
+  useEffect(() => {
+    async function loadCategories() {
+      const data = await getCategories();
+      setCategories(data);
+    }
+    loadCategories();
+  }, []);
+
+  console.log(categories.category_name);
 
   return (
     <div className=" md:px-30 w-full min-h-150 bg-white flex flex-col py-20 px-5 gap-4">
@@ -38,10 +58,14 @@ export default function ProductsPage() {
           <option value="" selected disabled>
             All Products
           </option>
-          <option value="volvo">Volvo</option>
-          <option value="saab">Saab</option>
-          <option value="mercedes">Mercedes</option>
-          <option value="audi">Audi</option>
+          {categories.map((category) => (
+            <option
+              key={category.category_id}
+              value={category.category_name.toLowerCase()}
+            >
+              {category.category_name}
+            </option>
+          ))}
         </select>
 
         <select
@@ -52,11 +76,9 @@ export default function ProductsPage() {
           <option value="" selected disabled>
             Sort by
           </option>
-          <option value="featured">Featured</option>
-          <option value="newest">Newest</option>
-          <option value="priceLH">Price: Low to High</option>
-          <option value="priceHL">Price: High to Low</option>
-          <option value="rated">Highest Rated</option>
+          {sort.map((sortOption) => (
+            <option value={sortOption.toLowerCase()}>{sortOption}</option>
+          ))}
         </select>
       </div>
 
@@ -67,7 +89,13 @@ export default function ProductsPage() {
         ))}
       </div>
 
-      <PageTurner page={page} setPage={setPage} products={products} startPage={start} endPage={end} />
+      <PageTurner
+        page={page}
+        setPage={setPage}
+        products={products}
+        startPage={start}
+        endPage={end}
+      />
     </div>
   );
 }

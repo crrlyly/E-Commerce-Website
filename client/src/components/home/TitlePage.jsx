@@ -1,5 +1,6 @@
 import Stats from "../Stats";
-import Clothes from "../../assets/Clothes.png";
+import title from "../../../public/images/title.jpeg";
+import collection from "../../../public/images/collection.jpg";
 import styles from "../../styles/home/home.module.css";
 function TitlePage() {
   return (
@@ -44,10 +45,10 @@ function TitlePage() {
       >
         <div
           className={`${styles.extendHeight} xl:h-130 drop-shadow-lg h-110 w-7/8 rounded-4xl bg-cover bg-center relative "`}
-          style={{ backgroundImage: `url(${Clothes})` }}
+          style={{ backgroundImage: `url(${title})` }}
         >
           <div className="drop-shadow-lg -bottom-7.5 -left-7.5 rounded-3xl w-70 h-30 absolute bg-white flex items-center justify-center gap-3">
-            <img className="w-15 h-15" src={Clothes} alt="" />
+            <img className="w-15 h-15" src={collection} alt="" />
             <div className="">
               <h2 className="uppercase">Trending</h2>
               <h1 className="font-semibold text-[1.1rem]">

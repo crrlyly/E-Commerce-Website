@@ -1,4 +1,3 @@
-import Clothes from "../../assets/Clothes.png";
 import ItemCard from "../cards/ItemCard";
 import styles from "../../styles/home/featured.module.css";
 import {useState, useEffect} from "react";

@@ -1,9 +1,9 @@
-import SearchBar from "../components/SearchBar";
+import ItemPage from "../components/home/ItemPage";
 
 function Fake() {
   return (
     <>
-      <SearchBar></SearchBar>
+      <ItemPage></ItemPage>
     </>
   );
 }
