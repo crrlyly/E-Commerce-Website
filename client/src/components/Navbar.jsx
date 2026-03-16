@@ -42,7 +42,7 @@ function Navbar() {
           <a className="transition:text duration-200 hover:text-black" href="">
             About
           </a>
-          <div className="bg-red-400 px-3 py-[.2rem] rounded-2xl text-white font-semibold flex items-center gap-2 text-[.8rem]">
+          <div className="bg-red-400 px-3 py-[.2rem] rounded-2xl text-white font-extrabold flex items-center gap-2 text-[.8rem]">
             <span class="material-symbols-outlined">sell</span>30% OFF
           </div>
         </div>
@@ -51,7 +51,7 @@ function Navbar() {
           <button
             onClick={() => setSearchOpen(true)}
             className="px-2 py-2 
-          cursor-pointer font-semibold text-slate-600 hover:bg-red-100 flex 
+          cursor-pointer font-semibold text-slate-600 hover:bg-black/10 flex 
           justify-center items-center rounded-[9px]"
           >
             <span className="material-symbols-outlined text-[1.4rem]! leading-none">
@@ -60,7 +60,7 @@ function Navbar() {
           </button>
 
           <button
-            className="px-2 py-2  font-semibold text-slate-600 relative cursor-pointer hover:bg-red-100 flex 
+            className="px-2 py-2  font-semibold text-slate-600 relative cursor-pointer hover:bg-black/10 flex 
           justify-center items-center rounded-[9px]"
           >
             <div className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-black text-[10px] text-white">
@@ -72,7 +72,7 @@ function Navbar() {
           </button>
 
           <button
-            className="px-2 py-2  font-semibold text-slate-600 cursor-pointer hover:bg-red-100 flex 
+            className="px-2 py-2  font-semibold text-slate-600 cursor-pointer hover:bg-black/10 flex 
           justify-center items-center rounded-[9px]"
           >
             <span className="material-symbols-outlined text-[1.4rem]! leading-none">

@@ -1,7 +1,7 @@
 function ContactPage() {
   return (
-    <div className="md:min-h-100 md:px-20 w-full min-h-160 bg-white flex justify-center items-center">
-      <div className="md:h-[85%] w-5/6 h-[70%] bg-gray-900 rounded-3xl pt-10 flex flex-col items-center md:justify-center gap-6 px-8">
+    <div className="md:h-100 md:px-20 w-full min-h-160 bg-white flex justify-center items-center">
+      <div className="w-5/6 h-[70%] max-w-283.5 bg-gray-900 rounded-3xl pt-10 flex flex-col items-center md:justify-center gap-6 px-8">
         <h1 className="text-center text-white text-4xl font-bold">
           Stay in the Loop
         </h1>

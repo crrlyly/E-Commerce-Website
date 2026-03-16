@@ -4,7 +4,7 @@ import collection from "../../../public/images/collection.jpg";
 import styles from "../../styles/home/home.module.css";
 function TitlePage() {
   return (
-    <div className="2xl:pt-0 2xl:h-dvh xl:min-h-190 md:min-h-180 md:flex md:gap-6 md:pt-25 md:px-15 min-h-210 w-full bg-gray-50 pt-15">
+    <div className="2xl:pt-0 2xl:h-dvh xl:min-h-190 md:min-h-180 md:flex md:gap-6 md:pt-25 md:px-15 min-h-210 w-full bg-gray-100 pt-15">
       <div
         className={`${styles.leftContainer} ${styles.noMarginBottom} 2xl:justify-center md:w-1/2 md:gap-4 flex flex-col items-start gap-9 px-7`}
       >
