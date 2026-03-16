@@ -1,9 +1,9 @@
-import ItemPage from "../components/home/ItemPage";
+import Quantity from "../components/Quantity.jsx";
 
 function Fake() {
   return (
     <>
-      <ItemPage></ItemPage>
+      <Quantity></Quantity>
     </>
   );
 }
