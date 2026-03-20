@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SideBar from "./SideBar";
 import SearchBar from "./SearchBar";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,10 +31,10 @@ function Navbar() {
         </div>
 
         <div className=" hidden md:flex items-center gap-7 text-slate-600 font-medium">
-          <a className="transition:text duration-200 hover:text-black" href="">
+          <a className="transition:text duration-200 hover:text-black" href="/">
             Home
           </a>
-          <a className="transition:text duration-200 hover:text-black" href="">
+          <a className="transition:text duration-200 hover:text-black" href="/#shop">
             Shop
           </a>
           <a className="transition:text duration-200 hover:text-black" href="">
@@ -71,14 +72,15 @@ function Navbar() {
             </span>
           </button>
 
-          <button
+          <Link
+            to="/profile"
             className="px-2 py-2  font-semibold text-slate-600 cursor-pointer hover:bg-black/10 flex 
           justify-center items-center rounded-[9px]"
           >
             <span className="material-symbols-outlined text-[1.4rem]! leading-none">
               account_circle
             </span>
-          </button>
+          </Link>
         </div>
       </nav>
       <SideBar ifOpen={isOpen} close={close}></SideBar>

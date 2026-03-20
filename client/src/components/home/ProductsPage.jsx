@@ -41,7 +41,7 @@ export default function ProductsPage() {
   console.log(categories.category_name);
 
   return (
-    <div className=" md:px-30 w-full min-h-150 bg-white flex flex-col py-20 px-5 gap-4">
+    <div id="shop" className=" md:px-30 w-full min-h-150 bg-white flex flex-col py-20 px-5 gap-4">
       <h1 className="md:text-5xl md:font-bold text-4xl font-semibold">
         All Products
       </h1>

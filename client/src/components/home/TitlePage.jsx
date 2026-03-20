@@ -2,6 +2,7 @@ import Stats from "../Stats";
 import title from "../../../public/images/title.jpeg";
 import collection from "../../../public/images/collection.jpg";
 import styles from "../../styles/home/home.module.css";
+
 function TitlePage() {
   return (
     <div className="2xl:pt-0 2xl:h-dvh xl:min-h-190 md:min-h-180 md:flex md:gap-6 md:pt-25 md:px-15 min-h-210 w-full bg-gray-100 pt-15">
@@ -25,12 +26,12 @@ function TitlePage() {
         </p>
 
         <div className="md:mb-7 md:flex">
-          <button className="whitespace-nowrap md:inline-block md:mr-5 md:py-4 text-[1.3rem] inline-flex items-center justify-center gap-2 rounded-2xl bg-black px-10 py-5 text-white content-center">
+          <a href="/#shop" className="whitespace-nowrap md:inline-block md:mr-5 md:py-4 text-[1.3rem] inline-flex items-center justify-center gap-2 rounded-2xl bg-black px-10 py-5 text-white content-center">
             Shop Now
             <span className="material-symbols-outlined leading-none md:align-middle">
               arrow_forward
             </span>
-          </button>
+          </a>
           <button
             className={`${styles.noMarginLeft} ml-5 whitespace-nowrap md:mt-0 md:inline-block md:mr-5 md:py-4 md:font-semibold text-[1.3rem] mt-5 inline-flex items-center justify-center gap-2 rounded-2xl px-10 py-5 bg-white content-center border-2 border-gray-200`}
           >
