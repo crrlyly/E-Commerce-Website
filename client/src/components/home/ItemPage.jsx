@@ -1,6 +1,11 @@
+import { useState } from "react";
 import Quantity from "../Quantity";
+// import { useCartStore } from "../../store/cartStore";
 
 export default function ItemPage({ product, openItemPage, setOpenItemPage }) {
+  const [quantity, setQuantity] = useState(1);
+  // const addItem = useCartStore((state)=>state.addItem)
+
   console.log(product);
   return (
     <div
@@ -70,10 +75,10 @@ export default function ItemPage({ product, openItemPage, setOpenItemPage }) {
             In Stock
           </div>
           <div className="mt-3">
-            <Quantity></Quantity>
+            <Quantity quantity={quantity} setQuantity={setQuantity}></Quantity>
           </div>
           <div className="flex justify-center items-center">
-            <button className="mb-7 mt-5 py-4 mx-auto w-full mr-5 bg-amber-200 flex justify-center items-center rounded-2xl">
+            <button  className="mb-7 mt-5 py-4 mx-auto w-full mr-5 bg-amber-200 flex justify-center items-center rounded-2xl">
               {" "}
               <span class="material-symbols-outlined mr-3">shopping_bag</span>
               Add to Cart --- ${product.price}
