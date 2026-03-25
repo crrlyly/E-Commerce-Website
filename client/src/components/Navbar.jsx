@@ -37,9 +37,9 @@ function Navbar() {
           <a className="transition:text duration-200 hover:text-black" href="/#shop">
             Shop
           </a>
-          <a className="transition:text duration-200 hover:text-black" href="">
+          <Link to="/lookbook" className="transition:text duration-200 hover:text-black" href="">
             Lookbook
-          </a>
+          </Link>
           <a className="transition:text duration-200 hover:text-black" href="">
             About
           </a>
