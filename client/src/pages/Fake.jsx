@@ -1,9 +1,8 @@
-import Quantity from "../components/Quantity.jsx";
-
+import CartBar from "../components/CartBar";
 function Fake() {
   return (
     <>
-      <Quantity></Quantity>
+      <CartBar/>
     </>
   );
 }
