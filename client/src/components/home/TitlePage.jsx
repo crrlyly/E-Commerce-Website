@@ -1,6 +1,6 @@
 import Stats from "../Stats";
-import title from "../../../public/images/title.jpeg";
-import collection from "../../../public/images/collection.jpg";
+import title from "../../assets/title.jpeg";
+import collection from "../../assets/collection.jpg";
 import styles from "../../styles/home/home.module.css";
 
 function TitlePage() {
@@ -45,7 +45,7 @@ function TitlePage() {
         className={`${styles.hideContainer} hidden w-1/2 md:flex items-center justify-center`}
       >
         <div
-          className={`${styles.extendHeight} xl:h-130 drop-shadow-lg h-110 w-7/8 rounded-4xl bg-cover bg-center relative "`}
+          className={`${styles.extendHeight} xl:h-130 drop-shadow-lg h-110 w-7/8 rounded-4xl bg-cover bg-center relative`}
           style={{ backgroundImage: `url(${title})` }}
         >
           <div className="drop-shadow-lg -bottom-7.5 -left-7.5 rounded-3xl w-70 h-30 absolute bg-white flex items-center justify-center gap-3">

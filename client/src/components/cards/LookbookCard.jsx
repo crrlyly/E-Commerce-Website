@@ -1,4 +1,4 @@
-import Picture from "../../../public/images/bottle1.jpg";
+import Picture from "../../assets/bottle1.jpg";
 
 export default function LookbookCard() {
   return (
@@ -19,7 +19,7 @@ export default function LookbookCard() {
         </p>
         <div className="mb-3 flex items-center gap-3">
           <h3 className="text-[1.1rem] font-semibold">Explore collection</h3>
-          <span class="material-symbols-outlined text-[1.1rem]!">arrow_forward_ios</span>
+          <span className="material-symbols-outlined text-[1.1rem]!">arrow_forward_ios</span>
         </div>
         <span>4 looks inside</span>
       </div>
