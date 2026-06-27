@@ -1,4 +1,4 @@
-
+import Quantity from "./Quantity";
 export default function CartBar() {
   return (
     <div className="w-full h-dvh bg-pink-400 flex flex-col">
@@ -7,8 +7,8 @@ export default function CartBar() {
           <span className="material-symbols-outlined text-[1.4rem]! leading-none">
             shopping_bag
           </span>
-          <h1>Your Cart</h1>
-          <div className="bg-blue-100 flex justify-center items-center p-3 rounded-full">
+          <h1 className="ml-3 text-[1.4rem] font-bold">Your Cart</h1>
+          <div className="bg-blue-100 flex justify-center items-center p-3 rounded-full ml-3">
             16
           </div>
         </div>
@@ -18,15 +18,24 @@ export default function CartBar() {
           </span>
         </button>
       </div>
-      <div className="w-full h-full bg-green-200 overflow-y-auto overflow-x-hidden">
+      <div className="w-full h-full bg-green-200 overflow-y-auto overflow-x-hidden p-7">
         {/* make the item component */}
-        <div>
-          {/* <img src="" alt="" /> */}
-          <div>
-            <span></span>
-            <span></span>
+        <div className="w-full h-32 bg-blue-100 grid grid-cols-[40%_1fr] grid-rows-1 mb-7">
+          <div className="bg-red-100">
+            <img
+              className="w-full h-full p-3"
+              src="../assets/title.jpg"
+              alt=""
+            />
+          </div>
+          <div className="bg-yellow-100">
+            <span>Ceramic Vase Set</span>
+            <span>$159.98</span>
             <div>
-              {/* <Quantity></Quantity> */}
+              <Quantity></Quantity>
+              <span className="material-symbols-outlined text-[1.4rem]! leading-none">
+                delete
+              </span>
             </div>
           </div>
         </div>
