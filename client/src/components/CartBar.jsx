@@ -1,10 +1,12 @@
 
 import CartCard from "./cards/CartCard";
 
+// ${ifOpen ? "opacity-0" : "pointer-events-none opacity-0"}`}
+
 export default function CartBar({ ifOpen, close }) {
   return (
   <div className={`fixed inset-0 z-40 w-full h-dvh bg-white flex flex-col 
-  transition-opacity duration-300 ${ifOpen ? "opacity-0" : "pointer-events-none opacity-0"}`} onClick={close}>
+  transition-transform duration-300 ${ifOpen ? "translate-x-0" : "pointer-events-none translate-x-full"}`} onClick={close}>
       <div className="w-full h-40 bg-white px-5 flex justify-between items-center border-b border-black/30">
         <div className="flex items-center">
           <span className="material-symbols-outlined text-[1.4rem]! leading-none">

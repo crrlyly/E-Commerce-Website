@@ -76,9 +76,7 @@ function Navbar() {
           <button
             className="px-2 py-2  font-semibold text-slate-600 relative cursor-pointer hover:bg-black/10 flex 
           justify-center items-center rounded-[9px]"
-            onClick={() => {
-              bagToggle
-            }}
+            onClick={bagToggle}
           >
             <div className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-black text-[10px] text-white">
               0
