@@ -3,6 +3,7 @@ import SideBar from "./SideBar";
 import SearchBar from "./SearchBar";
 import { Link } from "react-router-dom";
 import CartBar from "./CartBar";
+import { useCartStore } from "../store/cartStore";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +15,10 @@ function Navbar() {
 
   const bagClose = () => setBagOpen(false);
   const bagToggle = () => setBagOpen((v) => !v);
+
+  const numOfItems = useCartStore((state) =>
+    state.items.reduce((total, item) => total + item.selected, 0),
+  );
 
   return (
     <>
@@ -79,7 +84,7 @@ function Navbar() {
             onClick={bagToggle}
           >
             <div className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-black text-[10px] text-white">
-              0
+              {numOfItems}
             </div>
             <span className="material-symbols-outlined text-[1.4rem]! leading-none">
               shopping_bag

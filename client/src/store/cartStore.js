@@ -1,24 +1,24 @@
 import { create } from "zustand";
 
-export const useCartStore = create((set) => ({
+export const useCartStore = create((set, get) => ({
   items: [],
 
   addItem: (product) =>
     set((state) => {
-      const existing = state.items.find((item) => item.id === product.id);
+      const existing = state.items.find((item) => item.pid === product.pid);
 
       if (existing) {
         return {
           items: state.items.map((item) =>
-            item.id === product.id
-              ? { ...item, quantity: item.quantity + product.quantity }
-              : item
+            item.pid === product.pid
+              ? { ...item, selected: 1 + item.selected }
+              : item,
           ),
         };
       }
 
       return {
-        items: [...state.items, { ...product, quantity: 1 }],
+        items: [...state.items, { ...product, selected: 1 }],
       };
     }),
 
@@ -30,7 +30,7 @@ export const useCartStore = create((set) => ({
   increaseQty: (id) =>
     set((state) => ({
       items: state.items.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+        item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
       ),
     })),
 
@@ -38,14 +38,19 @@ export const useCartStore = create((set) => ({
     set((state) => ({
       items: state.items
         .map((item) =>
-          item.id === id ? { ...item, quantity: item.quantity - 1 } : item
+          item.id === id ? { ...item, quantity: item.quantity - 1 } : item,
         )
         .filter((item) => item.quantity > 0), //which ones you want to keep
     })),
 
   clearCart: () => set({ items: [] }),
+  checkCart: () => {
+    console.log(get().items);
+  },
+  checkAmount: () => {
+    return get().items.reduce((total, item) => total + item.selected, 0);
+  },
 }));
-
 
 // use it like this
 // import { useCartStore } from "../store/cartStore";
