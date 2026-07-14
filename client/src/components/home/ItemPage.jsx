@@ -1,10 +1,12 @@
 import { useState } from "react";
 import Quantity from "../Quantity";
-// import { useCartStore } from "../../store/cartStore";
+import { useCartStore } from "../../store/cartStore";
 
 export default function ItemPage({ product, openItemPage, setOpenItemPage }) {
   const [quantity, setQuantity] = useState(1);
-  // const addItem = useCartStore((state)=>state.addItem)
+
+  const addItem = useCartStore((state) => state.addItem);
+  // const checkItems = useCartStore((state) => state.checkCart);
 
   console.log(product);
   return (
@@ -16,7 +18,10 @@ export default function ItemPage({ product, openItemPage, setOpenItemPage }) {
         onClick={(e) => e.stopPropagation()}
         className="md:flex md:max-w-200 relative md:max-h-125 md:overflow-y-auto w-[90%] h-[90%] bg-white border border-black/30 rounded-4xl hidden justify-between"
       >
-        <button onClick={() => (setOpenItemPage(false))} className="cursor-pointer absolute top-5 right-4 px-2 py-2 border border-black/20 bg-white backdrop-blur-2xl rounded-full flex items-center justify-center">
+        <button
+          onClick={() => setOpenItemPage(false)}
+          className="cursor-pointer absolute top-5 right-4 px-2 py-2 border border-black/20 bg-white backdrop-blur-2xl rounded-full flex items-center justify-center"
+        >
           <span class="material-symbols-outlined text-black/70">close</span>
         </button>
         <div className="w-[50%] h-100 relative mt-10 mx-8 flex-1">
@@ -78,7 +83,13 @@ export default function ItemPage({ product, openItemPage, setOpenItemPage }) {
             <Quantity quantity={quantity} setQuantity={setQuantity}></Quantity>
           </div>
           <div className="flex justify-center items-center">
-            <button  className="mb-7 mt-5 py-4 mx-auto w-full mr-5 bg-amber-200 flex justify-center items-center rounded-2xl">
+            <button
+              className="mb-7 mt-5 py-4 mx-auto w-full mr-5 bg-amber-200 flex justify-center items-center rounded-2xl"
+              onClick={() => {
+                addItem(product);
+                setOpenItemPage(false);
+              }}
+            >
               {" "}
               <span class="material-symbols-outlined mr-3">shopping_bag</span>
               Add to Cart --- ${product.price}
@@ -145,7 +156,13 @@ export default function ItemPage({ product, openItemPage, setOpenItemPage }) {
         <div className="ml-10 mt-4">
           <Quantity></Quantity>
         </div>
-        <button className="mb-10 mt-7 py-4 mx-10 bg-amber-200 flex justify-center items-center rounded-2xl">
+        <button
+          className="mb-10 mt-7 py-4 mx-10 bg-amber-200 flex justify-center items-center rounded-2xl"
+          onClick={() => {
+            addItem(product);
+            setOpenItemPage(false);
+          }}
+        >
           {" "}
           <span class="material-symbols-outlined mr-3">shopping_bag</span>Add to
           Cart --- ${product.price}

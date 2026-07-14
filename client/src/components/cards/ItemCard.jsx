@@ -47,7 +47,7 @@ export default function ItemCard({ product }) {
               </button>
             </div>
 
-            <div className="absolute w-full h-full top-0 left-0 flex flex-col justify-end">
+            <div className="absolute w-full h-full top-0 left-0  flex flex-col justify-end">
               <button
                 className="opacity-0 cursor-pointer translate-y-6 transition-all duration-200
   group-hover:opacity-100 group-hover:translate-y-0 z-10 bg-green-700 bottom-0 mx-10 my-5 py-3 flex justify-center items-center rounded-2xl text-white font-semibold"
