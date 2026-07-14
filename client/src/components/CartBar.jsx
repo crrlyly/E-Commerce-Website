@@ -1,9 +1,11 @@
 
 import CartCard from "./cards/CartCard";
+import { useCartStore } from "../store/cartStore";
 
 // ${ifOpen ? "opacity-0" : "pointer-events-none opacity-0"}`}
 
 export default function CartBar({ ifOpen, close }) {
+  const items = useCartStore((state)=>state.items);
   return (
   <div className={`fixed inset-0 z-40 w-full h-dvh bg-white flex flex-col 
   transition-transform duration-300 ${ifOpen ? "translate-x-0" : "pointer-events-none translate-x-full"}`} onClick={close}>
@@ -25,7 +27,9 @@ export default function CartBar({ ifOpen, close }) {
       </div>
       <div className="w-full h-full bg-white overflow-y-auto overflow-x-hidden p-7">
         {/* make the item component */}
-        <CartCard></CartCard>
+        {items.map((item)=> (
+          <CartCard key={item.pid} item={item}/>
+        ))}
         {/* end component */}
       </div>
       <div className="w-full h-auto bg-white border-t border-black/30 p-5">
