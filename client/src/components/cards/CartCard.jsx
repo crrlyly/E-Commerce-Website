@@ -9,13 +9,13 @@ export default function CartCard({ item }) {
           className="w-full h-full p-3 rounded-3xl border border-black/30 object-cover"
           src={`../../../public/images/${item.productImage}`}
           alt=""
-        />
+        /> 
       </div>
       <div className="bg-white flex flex-col justify-between pl-5">
         <span className="text-[1.2rem] font-semibold">{item.pname}</span>
         <span className="block text-[1.3rem] font-semibold">${item.price}</span>
         <div className="flex items-center justify-between">
-          <Quantity quantity={item.selected}></Quantity>
+          <Quantity item={item} version={2}></Quantity>
           <span className="material-symbols-outlined text-[1.4rem]! leading-none">
             delete
           </span>

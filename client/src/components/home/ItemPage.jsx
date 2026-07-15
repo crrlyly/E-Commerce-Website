@@ -3,9 +3,9 @@ import Quantity from "../Quantity";
 import { useCartStore } from "../../store/cartStore";
 
 export default function ItemPage({ product, openItemPage, setOpenItemPage }) {
-  const [quantity, setQuantity] = useState(1);
 
   const addItem = useCartStore((state) => state.addItem);
+  const [itemSelected, setItemSelected] = useState(1);
   // const checkItems = useCartStore((state) => state.checkCart);
 
   console.log(product);
@@ -80,13 +80,13 @@ export default function ItemPage({ product, openItemPage, setOpenItemPage }) {
             In Stock
           </div>
           <div className="mt-3">
-            <Quantity quantity={quantity} setQuantity={setQuantity}></Quantity>
+            <Quantity item={product} version={1} itemSelected={itemSelected} setItemSelected={setItemSelected}></Quantity>
           </div>
           <div className="flex justify-center items-center">
             <button
               className="mb-7 mt-5 py-4 mx-auto w-full mr-5 bg-amber-200 flex justify-center items-center rounded-2xl"
               onClick={() => {
-                addItem(product);
+                addItem(product, itemSelected, 1);
                 setOpenItemPage(false);
               }}
             >
@@ -154,12 +154,12 @@ export default function ItemPage({ product, openItemPage, setOpenItemPage }) {
           In Stock
         </div>
         <div className="ml-10 mt-4">
-          <Quantity></Quantity>
+          <Quantity item={product} version={1} itemSelected={itemSelected} setItemSelected={setItemSelected}></Quantity>
         </div>
         <button
           className="mb-10 mt-7 py-4 mx-10 bg-amber-200 flex justify-center items-center rounded-2xl"
           onClick={() => {
-            addItem(product);
+            addItem(product, itemSelected, 1);
             setOpenItemPage(false);
           }}
         >

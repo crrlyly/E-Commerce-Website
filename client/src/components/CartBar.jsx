@@ -8,7 +8,7 @@ export default function CartBar({ ifOpen, close }) {
   const items = useCartStore((state)=>state.items);
   return (
   <div className={`fixed inset-0 z-40 w-full h-dvh bg-white flex flex-col 
-  transition-transform duration-300 ${ifOpen ? "translate-x-0" : "pointer-events-none translate-x-full"}`} onClick={close}>
+  transition-transform duration-300 ${ifOpen ? "translate-x-0" : "pointer-events-none translate-x-full"}`}>
       <div className="w-full h-40 bg-white px-5 flex justify-between items-center border-b border-black/30">
         <div className="flex items-center">
           <span className="material-symbols-outlined text-[1.4rem]! leading-none">
@@ -19,7 +19,7 @@ export default function CartBar({ ifOpen, close }) {
             16
           </div>
         </div>
-        <button className="">
+        <button onClick={close} className="">
           <span className="material-symbols-outlined text-[1.4rem]! leading-none">
             close
           </span>
