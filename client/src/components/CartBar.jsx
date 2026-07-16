@@ -1,6 +1,7 @@
 import CartCard from "./cards/CartCard";
 import { useCartStore } from "../store/cartStore";
 import { calculateItemTotal } from "../utils/calculateItemTotal";
+import { Link } from "react-router-dom";
 
 // ${ifOpen ? "opacity-0" : "pointer-events-none opacity-0"}`}
 
@@ -13,7 +14,8 @@ export default function CartBar({ ifOpen, close }) {
   return (
     <>
       <div
-        className={`absolute w-full h-full z-30 bg-black/50 transition-opacity duration-300 ${ifOpen ? "opacity-100 backdrop-blur-md" : "pointer-events-none opacity-0"}`}
+        onClick={close}
+        className={`fixed top-0 left-0 w-full h-full z-30 bg-black/50 transition-opacity duration-300 ${ifOpen ? "opacity-100 backdrop-blur-md" : "pointer-events-none opacity-0"}`}
       ></div>
       <div
         className={`fixed top-0 right-0 z-40 w-full max-w-140 h-dvh bg-white flex flex-col 
@@ -56,9 +58,15 @@ export default function CartBar({ ifOpen, close }) {
             <span>Total</span>
             <span>${(total + 0).toFixed(2) || 0}</span>
           </div>
-          <button className="w-full bg-blue-200 p-5 rounded-3xl text-[1.1rem] font-bold">
-            Checkout
-          </button>
+          <Link
+            to="/checkout"
+            className="transition:text duration-200 hover:text-black"
+            href=""
+          >
+            <button className="w-full bg-blue-200 p-5 rounded-3xl text-[1.1rem] font-bold cursor-pointer">
+              Checkout
+            </button>
+          </Link>
         </div>
       </div>
     </>
