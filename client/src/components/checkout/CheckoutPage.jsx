@@ -213,8 +213,24 @@ export default function CheckoutPage() {
           <div className="w-full h-auto overflow-y-auto mt-7">
             <CheckoutCard></CheckoutCard>
           </div>
-          <div className="w-full h-auto"></div>
-          <div className="w-full h-auto"></div>
+          <div className="w-full h-auto border-t border-b pt-5 pb-5 mt-5">
+            <input className="border border-black/25 p-3 rounded-[13px] w-full mb-5" type="text" placeholder="Promo code (SALE30)" />
+            <div className="flex justify-between mb-3">
+              <span>Subtotal</span>
+              <span>$</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Shipping</span>
+              <span>Free</span>
+            </div>
+          </div>
+          <div className="w-full h-auto pt-5 pb-5">
+            <div className="flex justify-between text-[1.3rem] font-bold">
+              <span>Total</span>
+              <span>$</span>
+            </div>
+            <input className="w-full bg-red-100 rounded-2xl p-5 text-[1.3rem] mt-8" type="submit" value="🔒 Place Order"></input>
+          </div>
         </div>
       </form>
     </div>
