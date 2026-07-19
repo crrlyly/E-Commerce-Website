@@ -7,14 +7,10 @@ export default function CheckoutPage() {
     email:"",
     fname:"",
     lname:"",
-    addy:"",
+    address:"",
     city:"",
     zip:"",
     country:"",
-    cName:"",
-    cNum:"",
-    exp:"",
-    cvv:"",
   })
 
   const handleChange = (e) => {
@@ -47,7 +43,6 @@ export default function CheckoutPage() {
 
       {/* Start of form */}
       <form
-        action="/action_page.php"
         onSubmit={handleSubmit}
         className="w-full h-auto flex flex-col justify-center items-center"
       >
@@ -169,6 +164,7 @@ export default function CheckoutPage() {
             name="country"
             placeholder="United States"
             className="border border-black/25 p-3 rounded-[13px] w-full"
+            onChange={handleChange}
           />
           <br />
           <br />
