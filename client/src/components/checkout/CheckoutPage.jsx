@@ -1,6 +1,35 @@
 import { Link } from "react-router-dom";
 import CheckoutCard from "../cards/CheckoutCard";
+import { useState } from "react";
 export default function CheckoutPage() {
+  const [email, setEmail] = useState("");
+
+  const [formData, setFormData] = useState({
+    email:"",
+    fname:"",
+    lname:"",
+    addy:"",
+    city:"",
+    zip:"",
+    country:"",
+    cName:"",
+    cNum:"",
+    exp:"",
+    cvv:"",
+  })
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData, 
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(email);
+  }
+
   return (
     <div className="w-full h-auto bg-black/2 flex flex-col justify-center items-center pb-30">
       {/* Checkout Title */}
@@ -21,6 +50,7 @@ export default function CheckoutPage() {
       {/* Start of form */}
       <form
         action="/action_page.php"
+        onSubmit={handleSubmit}
         className="w-full h-auto flex flex-col justify-center items-center"
       >
         {/* Contact Info Form */}
@@ -38,6 +68,8 @@ export default function CheckoutPage() {
             name="email"
             placeholder="you@example.com"
             className="border border-black/25 p-3 rounded-[13px]"
+            value={email}
+            onChange={handleChange}
           />
           <br />
           <div className="grid grid-cols-[50%_50%] bg-white mt-5">
@@ -52,6 +84,7 @@ export default function CheckoutPage() {
                 name="fname"
                 placeholder="Carly"
                 className="border border-black/25 p-3 rounded-[13px] w-full"
+                onChange={handleChange}
               />
               <br />
             </div>
@@ -67,6 +100,7 @@ export default function CheckoutPage() {
                 name="lname"
                 placeholder="Chick"
                 className="border border-black/25 p-3 rounded-[13px] w-full"
+                onChange={handleChange}
               />
               <br />
             </div>
@@ -92,6 +126,7 @@ export default function CheckoutPage() {
             name="address"
             placeholder="123 Main St"
             className="border border-black/25 p-3 rounded-[13px] w-full"
+            onChange={handleChange}
           />
           <br />
           <div className="grid grid-cols-[50%_50%] bg-white mb-5 mt-5">
@@ -106,6 +141,7 @@ export default function CheckoutPage() {
                 name="city"
                 placeholder="New York"
                 className="border border-black/25 p-3 rounded-[13px] w-full"
+                onChange={handleChange}
               />
               <br />
             </div>
@@ -120,6 +156,7 @@ export default function CheckoutPage() {
                 name="zip"
                 placeholder="10001"
                 className="border border-black/25 p-3 rounded-[13px] w-full"
+                onChange={handleChange}
               />
               <br />
             </div>
@@ -156,6 +193,7 @@ export default function CheckoutPage() {
             name="card-name"
             placeholder="Jane Doe"
             className="border border-black/25 p-3 rounded-[13px] w-full"
+            onChange={handleChange}
           />
           <br />
           <div className="mt-5">
@@ -169,6 +207,7 @@ export default function CheckoutPage() {
               name="card-num"
               placeholder="1234 5678 9012 3456"
               className="border border-black/25 p-3 rounded-[13px] w-full"
+              onChange={handleChange}
             />
             <br />
           </div>
@@ -185,6 +224,7 @@ export default function CheckoutPage() {
                 name="expiry"
                 placeholder="MM / YY"
                 className="border border-black/25 p-3 rounded-[13px] w-full"
+                onChange={handleChange}
               />
               <br />
             </div>
@@ -199,6 +239,7 @@ export default function CheckoutPage() {
                 name="cvv"
                 placeholder="123"
                 className="border border-black/25 p-3 rounded-[13px] w-full"
+                onChange={handleChange}
               />
               <br />
             </div>
