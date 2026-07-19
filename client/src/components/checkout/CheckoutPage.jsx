@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import CheckoutCard from "../cards/CheckoutCard";
 export default function CheckoutPage() {
   return (
     <div className="w-full h-auto bg-black/2 flex flex-col justify-center items-center pb-30">
@@ -81,7 +82,9 @@ export default function CheckoutPage() {
             </span>
             <span>Shipping Address</span>
           </div>
-          <label className="font-semibold" htmlFor="address">Street Address*</label>
+          <label className="font-semibold" htmlFor="address">
+            Street Address*
+          </label>
           <br />
           <input
             type="text"
@@ -93,7 +96,9 @@ export default function CheckoutPage() {
           <br />
           <div className="grid grid-cols-[50%_50%] bg-white mb-5 mt-5">
             <div className="w-full pr-3">
-              <label className="font-semibold" htmlFor="city">City*</label>
+              <label className="font-semibold" htmlFor="city">
+                City*
+              </label>
               <br />
               <input
                 type="text"
@@ -105,7 +110,9 @@ export default function CheckoutPage() {
               <br />
             </div>
             <div className="w-full pl-3">
-              <label className="font-semibold" htmlFor="zip">ZIP / Postal Code*</label>
+              <label className="font-semibold" htmlFor="zip">
+                ZIP / Postal Code*
+              </label>
               <br />
               <input
                 type="text"
@@ -118,7 +125,9 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          <label className="font-semibold" htmlFor="country">Country</label>
+          <label className="font-semibold" htmlFor="country">
+            Country
+          </label>
           <br />
           <input
             type="text"
@@ -137,7 +146,9 @@ export default function CheckoutPage() {
             <span class="material-symbols-outlined mr-3">credit_card</span>
             <span>Payment</span>
           </div>
-          <label className="font-semibold" htmlFor="card-name">Cardholder Name*</label>
+          <label className="font-semibold" htmlFor="card-name">
+            Cardholder Name*
+          </label>
           <br />
           <input
             type="text"
@@ -148,7 +159,9 @@ export default function CheckoutPage() {
           />
           <br />
           <div className="mt-5">
-            <label className="font-semibold" htmlFor="card-num">Card Number*</label>
+            <label className="font-semibold" htmlFor="card-num">
+              Card Number*
+            </label>
             <br />
             <input
               type="text"
@@ -162,7 +175,9 @@ export default function CheckoutPage() {
 
           <div className="grid grid-cols-[50%_50%] bg-white mb-5 mt-5">
             <div className="w-full pr-3">
-              <label className="font-semibold" htmlFor="expiry">Expiration*</label>
+              <label className="font-semibold" htmlFor="expiry">
+                Expiration*
+              </label>
               <br />
               <input
                 type="text"
@@ -174,7 +189,9 @@ export default function CheckoutPage() {
               <br />
             </div>
             <div className="w-full pl-3">
-              <label className="font-semibold" htmlFor="cvv">CVV*</label>
+              <label className="font-semibold" htmlFor="cvv">
+                CVV*
+              </label>
               <br />
               <input
                 type="text"
@@ -192,7 +209,10 @@ export default function CheckoutPage() {
 
         {/* Item Cards */}
         <div className="w-95 h-auto bg-white p-8 border border-black/25 rounded-2xl mt-10">
-          <div className="w-full h-auto"></div>
+          <span className="text-[1.2rem] font-semibold">Order Summary</span>
+          <div className="w-full h-auto overflow-y-auto mt-7">
+            <CheckoutCard></CheckoutCard>
+          </div>
           <div className="w-full h-auto"></div>
           <div className="w-full h-auto"></div>
         </div>
