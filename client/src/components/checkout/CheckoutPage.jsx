@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import CheckoutCard from "../cards/CheckoutCard";
 import { useState } from "react";
 export default function CheckoutPage() {
-  const [email, setEmail] = useState("");
 
   const [formData, setFormData] = useState({
     email:"",
