@@ -26,7 +26,6 @@ export default function CheckoutPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(email);
   }
 
   return (
@@ -67,7 +66,6 @@ export default function CheckoutPage() {
             name="email"
             placeholder="you@example.com"
             className="border border-black/25 p-3 rounded-[13px]"
-            value={email}
             onChange={handleChange}
           />
           <br />
@@ -110,7 +108,7 @@ export default function CheckoutPage() {
         {/* Shipping Address Form */}
         <div className="w-95 h-auto bg-white p-8 border border-black/25 rounded-2xl mt-10 ">
           <div className="text-[1.2rem] font-semibold mb-7 flex items-center">
-            <span class="material-symbols-outlined mr-3">
+            <span className="material-symbols-outlined mr-3">
               delivery_truck_speed
             </span>
             <span>Shipping Address</span>
@@ -179,7 +177,7 @@ export default function CheckoutPage() {
         {/* Payment Info Form  */}
         <div className="w-95 h-auto bg-white p-8 border border-black/25 rounded-2xl mt-10">
           <div className="text-[1.2rem] font-semibold mb-7 flex items-center">
-            <span class="material-symbols-outlined mr-3">credit_card</span>
+            <span className="material-symbols-outlined mr-3">credit_card</span>
             <span>Payment</span>
           </div>
           <label className="font-semibold" htmlFor="card-name">
