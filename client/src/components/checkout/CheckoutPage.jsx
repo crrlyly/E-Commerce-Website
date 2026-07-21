@@ -1,28 +1,70 @@
 import { Link } from "react-router-dom";
 import CheckoutCard from "../cards/CheckoutCard";
 import { useState } from "react";
+import { useCartStore } from "../../store/cartStore";
 export default function CheckoutPage() {
+  const items = useCartStore((state) => state.items);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [checkoutError, setCheckoutError] = useState("");
 
   const [formData, setFormData] = useState({
-    email:"",
-    fname:"",
-    lname:"",
-    address:"",
-    city:"",
-    zip:"",
-    country:"",
-  })
+    email: "",
+    fname: "",
+    lname: "",
+    address: "",
+    city: "",
+    zip: "",
+    country: "",
+  });
 
   const handleChange = (e) => {
     setFormData({
-      ...formData, 
-      [e.target.name]: e.target.value
-    })
-  }
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-  }
+
+    if (items.length === 0) {
+      setCheckoutError("Your cart is empty.");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      setCheckoutError("");
+
+      const response = await fetch(
+        "http://localhost:3000/api/create-checkout-session",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            customer: formData,
+            items: items.map((item) => ({
+              pid: item.pid,
+              selected: item.selected,
+            })),
+          }),
+        },
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Checkout failed.");
+      }
+
+      window.location.href = data.url;
+    } catch (error) {
+      setCheckoutError(error.message);
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="w-full h-auto bg-black/2 flex flex-col justify-center items-center pb-30">
@@ -62,6 +104,8 @@ export default function CheckoutPage() {
             placeholder="you@example.com"
             className="border border-black/25 p-3 rounded-[13px]"
             onChange={handleChange}
+            value={formData.email}
+            required
           />
           <br />
           <div className="grid grid-cols-[50%_50%] bg-white mt-5">
@@ -77,6 +121,8 @@ export default function CheckoutPage() {
                 placeholder="Carly"
                 className="border border-black/25 p-3 rounded-[13px] w-full"
                 onChange={handleChange}
+                value={formData.fname}
+                required
               />
               <br />
             </div>
@@ -93,6 +139,8 @@ export default function CheckoutPage() {
                 placeholder="Chick"
                 className="border border-black/25 p-3 rounded-[13px] w-full"
                 onChange={handleChange}
+                value={formData.lname}
+                required
               />
               <br />
             </div>
@@ -119,6 +167,8 @@ export default function CheckoutPage() {
             placeholder="123 Main St"
             className="border border-black/25 p-3 rounded-[13px] w-full"
             onChange={handleChange}
+            value={formData.address}
+            required
           />
           <br />
           <div className="grid grid-cols-[50%_50%] bg-white mb-5 mt-5">
@@ -134,6 +184,8 @@ export default function CheckoutPage() {
                 placeholder="New York"
                 className="border border-black/25 p-3 rounded-[13px] w-full"
                 onChange={handleChange}
+                value={formData.city}
+                required
               />
               <br />
             </div>
@@ -149,6 +201,8 @@ export default function CheckoutPage() {
                 placeholder="10001"
                 className="border border-black/25 p-3 rounded-[13px] w-full"
                 onChange={handleChange}
+                value={formData.zip}
+                required
               />
               <br />
             </div>
@@ -165,6 +219,8 @@ export default function CheckoutPage() {
             placeholder="United States"
             className="border border-black/25 p-3 rounded-[13px] w-full"
             onChange={handleChange}
+            value={formData.country}
+            required
           />
           <br />
           <br />
@@ -176,67 +232,11 @@ export default function CheckoutPage() {
             <span className="material-symbols-outlined mr-3">credit_card</span>
             <span>Payment</span>
           </div>
-          <label className="font-semibold" htmlFor="card-name">
-            Cardholder Name*
-          </label>
-          <br />
-          <input
-            type="text"
-            id="card-name"
-            name="card-name"
-            placeholder="Jane Doe"
-            className="border border-black/25 p-3 rounded-[13px] w-full"
-            onChange={handleChange}
-          />
-          <br />
-          <div className="mt-5">
-            <label className="font-semibold" htmlFor="card-num">
-              Card Number*
-            </label>
-            <br />
-            <input
-              type="text"
-              id="card-num"
-              name="card-num"
-              placeholder="1234 5678 9012 3456"
-              className="border border-black/25 p-3 rounded-[13px] w-full"
-              onChange={handleChange}
-            />
-            <br />
-          </div>
 
-          <div className="grid grid-cols-[50%_50%] bg-white mb-5 mt-5">
-            <div className="w-full pr-3">
-              <label className="font-semibold" htmlFor="expiry">
-                Expiration*
-              </label>
-              <br />
-              <input
-                type="text"
-                id="expiry"
-                name="expiry"
-                placeholder="MM / YY"
-                className="border border-black/25 p-3 rounded-[13px] w-full"
-                onChange={handleChange}
-              />
-              <br />
-            </div>
-            <div className="w-full pl-3">
-              <label className="font-semibold" htmlFor="cvv">
-                CVV*
-              </label>
-              <br />
-              <input
-                type="text"
-                id="cvv"
-                name="cvv"
-                placeholder="123"
-                className="border border-black/25 p-3 rounded-[13px] w-full"
-                onChange={handleChange}
-              />
-              <br />
-            </div>
-          </div>
+          <p className="mt-4 text-black/60">
+            You will enter your payment information securely through Stripe
+            after clicking Place Order.
+          </p>
 
           <br />
         </div>
@@ -248,7 +248,11 @@ export default function CheckoutPage() {
             <CheckoutCard></CheckoutCard>
           </div>
           <div className="w-full h-auto border-t border-b pt-5 pb-5 mt-5">
-            <input className="border border-black/25 p-3 rounded-[13px] w-full mb-5" type="text" placeholder="Promo code (SALE30)" />
+            <input
+              className="border border-black/25 p-3 rounded-[13px] w-full mb-5"
+              type="text"
+              placeholder="Promo code (SALE30)"
+            />
             <div className="flex justify-between mb-3">
               <span>Subtotal</span>
               <span>$</span>
@@ -263,7 +267,18 @@ export default function CheckoutPage() {
               <span>Total</span>
               <span>$</span>
             </div>
-            <input className="w-full bg-red-100 rounded-2xl p-5 text-[1.3rem] mt-8" type="submit" value="🔒 Place Order"></input>
+            {checkoutError && (
+              <p className="mt-4 text-red-600">{checkoutError}</p>
+            )}
+
+            <button
+              type="submit"
+              disabled={isSubmitting || items.length === 0}
+              className="w-full bg-red-100 rounded-2xl p-5 text-[1.3rem] mt-8
+             disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {isSubmitting ? "Opening secure checkout..." : "🔒 Place Order"}
+            </button>
           </div>
         </div>
       </form>

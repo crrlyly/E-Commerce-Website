@@ -1,81 +1,162 @@
-import express from "express"
+import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import productRoutes from "./routes/productRoutes.js";
-import categoryRoutes from "./routes/categoryRoutes.js";
 import Stripe from "stripe";
 
-dotenv.config()
+import productRoutes from "./routes/productRoutes.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
 
-const app = express()
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+dotenv.config();
 
-app.use(cors())
-app.use(express.json())
+const app = express();
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-app.use("/api/products", productRoutes)
-app.use("/api/categories", categoryRoutes)
+const orders = new Map();
 
-app.get("/", (req,res) => {
-    res.send("API is running")
-})
+/*
+  1. Stripe webhook comes first.
 
-app.post("/api/create-checkout-session", async (req, res) => {
+  Do not put express.json() above this route.
+*/
+app.post(
+  "/api/stripe-webhook",
+  express.raw({ type: "application/json" }),
+  async (req, res) => {
+    const signature = req.headers["stripe-signature"];
+
+    let event;
+
     try {
-        const {items, customer } = req.body
-        if(!Array.isArray(items) || items.length === 0) {
-            return res.status(400).json({
-                error: "Your cart is empty.",
-            })
+      event = stripe.webhooks.constructEvent(
+        req.body,
+        signature,
+        process.env.STRIPE_WEBHOOK_SECRET,
+      );
+    } catch (error) {
+      console.error(
+        "Webhook signature verification failed:",
+        error.message,
+      );
+
+      return res.status(400).send(`Webhook Error: ${error.message}`);
+    }
+
+    try {
+      switch (event.type) {
+        case "checkout.session.completed": {
+          const session = event.data.object;
+
+          if (session.payment_status === "paid") {
+            await markOrderPaid(session);
+          }
+
+          break;
         }
 
+        case "checkout.session.async_payment_succeeded": {
+          const session = event.data.object;
 
-        // Lookup prices in database. dont trust the price in react
-        const lineItems = items.map((item) => {
-            const product = products[item.pid]
+          await markOrderPaid(session);
+          break;
+        }
 
-            if(!product) {
-                throw new Error(`Invalid product: ${item.pid}`)
-            }
-            return {
-                price_data: {
-                    currency: "usd",
-                    product_data: {
-                        name: product.name,
-                    },
-                    unit_amount: product.priceInCents,
-                },
-                quantity: Number(item.selected),
-            }
-        })
+        case "checkout.session.async_payment_failed": {
+          const session = event.data.object;
 
-        const session = await stripe.checkout.sessions.create({
-            mode: "payment",
-            line_items: lineItems,
-            customer_email: customer.email,
-            billing_address_collection:"required",
-            shipping_address_collection: {
-                allowed_countries: ["US"],
-            },
-            success_url: `${process.env.CLIENT_URL}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${process.env.CLIENT_URL}/checkout`,
-        })
+          await markOrderFailed(session);
+          break;
+        }
 
-        res.json({
-            url:session.url,
-        })
+        default:
+          console.log(`Unhandled Stripe event: ${event.type}`);
+      }
 
-       
+      return res.sendStatus(200);
     } catch (error) {
-        console.error("Checkour error:", error)
+      console.error("Webhook processing failed:", error);
 
-        res.status(500).json({
-            error: error.message || "Unable to create checkout session.",
-        })
+      return res.sendStatus(500);
     }
-})
+  },
+);
+
+/*
+  2. Normal middleware comes after the webhook.
+*/
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+  }),
+);
+
+app.use(express.json());
+
+/*
+  3. Your normal API routes.
+*/
+app.use("/api/products", productRoutes);
+app.use("/api/categories", categoryRoutes);
+
+app.get("/", (req, res) => {
+  res.send("API is running");
+});
+
+/*
+  4. Temporary order-update functions.
+*/
+async function markOrderPaid(session) {
+  const orderId = session.metadata?.orderId;
+
+  if (!orderId) {
+    throw new Error("The Stripe session has no orderId.");
+  }
+
+  const order = orders.get(orderId);
+
+  if (!order) {
+    throw new Error(`Order ${orderId} was not found.`);
+  }
+
+  // Stripe can send the same webhook more than once.
+  if (order.status === "paid") {
+    console.log(`Order ${orderId} is already marked paid.`);
+    return;
+  }
+
+  order.status = "paid";
+  order.stripeSessionId = session.id;
+  order.paymentIntentId = session.payment_intent;
+  order.amountPaid = session.amount_total;
+  order.paidAt = new Date().toISOString();
+
+  orders.set(orderId, order);
+
+  console.log("Order marked paid:", order);
+}
+
+async function markOrderFailed(session) {
+  const orderId = session.metadata?.orderId;
+
+  if (!orderId) {
+    return;
+  }
+
+  const order = orders.get(orderId);
+
+  if (!order) {
+    return;
+  }
+
+  order.status = "payment_failed";
+  order.updatedAt = new Date().toISOString();
+
+  orders.set(orderId, order);
+
+  console.log("Order payment failed:", order);
+}
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, ()=>{
-    console.log(`Server running on port ${PORT}`)
-})
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
