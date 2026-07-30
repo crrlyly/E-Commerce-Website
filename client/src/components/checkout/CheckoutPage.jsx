@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import CheckoutCard from "../cards/CheckoutCard";
 import { useState } from "react";
 import { useCartStore } from "../../store/cartStore";
+import { calculateItemTotal } from "../../utils/calculateItemTotal";
+
 export default function CheckoutPage() {
   const items = useCartStore((state) => state.items);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -37,7 +39,7 @@ export default function CheckoutPage() {
       setCheckoutError("");
 
       const response = await fetch(
-        "http://localhost:3000/api/create-checkout-session",
+        "http://localhost:5000/api/create-checkout-session",
         {
           method: "POST",
           headers: {
@@ -255,7 +257,7 @@ export default function CheckoutPage() {
             />
             <div className="flex justify-between mb-3">
               <span>Subtotal</span>
-              <span>$</span>
+              <span>${calculateItemTotal(items)}</span>
             </div>
             <div className="flex justify-between">
               <span>Shipping</span>
@@ -265,7 +267,7 @@ export default function CheckoutPage() {
           <div className="w-full h-auto pt-5 pb-5">
             <div className="flex justify-between text-[1.3rem] font-bold">
               <span>Total</span>
-              <span>$</span>
+              <span>${0 + calculateItemTotal(items)}</span>
             </div>
             {checkoutError && (
               <p className="mt-4 text-red-600">{checkoutError}</p>

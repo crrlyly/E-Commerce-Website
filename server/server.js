@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import Stripe from "stripe";
+import crypto from "crypto";
+import db from "./config/db.js";
 
 import productRoutes from "./routes/productRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
@@ -14,9 +16,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const orders = new Map();
 
 /*
-  1. Stripe webhook comes first.
-
-  Do not put express.json() above this route.
+  Stripe webhook must be before express.json().
 */
 app.post(
   "/api/stripe-webhook",
@@ -33,10 +33,7 @@ app.post(
         process.env.STRIPE_WEBHOOK_SECRET,
       );
     } catch (error) {
-      console.error(
-        "Webhook signature verification failed:",
-        error.message,
-      );
+      console.error("Webhook signature verification failed:", error.message);
 
       return res.status(400).send(`Webhook Error: ${error.message}`);
     }
@@ -47,23 +44,19 @@ app.post(
           const session = event.data.object;
 
           if (session.payment_status === "paid") {
-            await markOrderPaid(session);
+            markOrderPaid(session);
           }
 
           break;
         }
 
         case "checkout.session.async_payment_succeeded": {
-          const session = event.data.object;
-
-          await markOrderPaid(session);
+          markOrderPaid(event.data.object);
           break;
         }
 
         case "checkout.session.async_payment_failed": {
-          const session = event.data.object;
-
-          await markOrderFailed(session);
+          markOrderFailed(event.data.object);
           break;
         }
 
@@ -74,14 +67,13 @@ app.post(
       return res.sendStatus(200);
     } catch (error) {
       console.error("Webhook processing failed:", error);
-
       return res.sendStatus(500);
     }
   },
 );
 
 /*
-  2. Normal middleware comes after the webhook.
+  Normal middleware.
 */
 app.use(
   cors({
@@ -91,9 +83,6 @@ app.use(
 
 app.use(express.json());
 
-/*
-  3. Your normal API routes.
-*/
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
 
@@ -102,13 +91,138 @@ app.get("/", (req, res) => {
 });
 
 /*
-  4. Temporary order-update functions.
+  Stripe Checkout route.
 */
-async function markOrderPaid(session) {
+app.post("/api/create-checkout-session", async (req, res) => {
+  try {
+    const { customer, items } = req.body;
+
+    if (!customer?.email) {
+      return res.status(400).json({
+        error: "Customer email is required.",
+      });
+    }
+
+    if (!Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({
+        error: "Your cart is empty.",
+      });
+    }
+
+    const lineItems = await Promise.all(
+      items.map(async (item) => {
+        const productId = Number(item.pid);
+        const quantity = Number(item.selected);
+
+        if (!Number.isInteger(productId) || productId < 1) {
+          throw new Error(`Invalid product ID: ${item.pid}`);
+        }
+
+        if (!Number.isInteger(quantity) || quantity < 1) {
+          throw new Error(`Invalid quantity for product ${item.pid}.`);
+        }
+
+        const [rows] = await db.execute(
+          `
+        SELECT
+          pid,
+          pname,
+          price
+        FROM product
+        WHERE pid = ?
+        LIMIT 1
+      `,
+          [productId],
+        );
+
+        const product = rows[0];
+
+        if (!product) {
+          throw new Error(`Product ${productId} was not found.`);
+        }
+
+        const price = Number(product.price);
+
+        if (!Number.isFinite(price) || price < 0) {
+          throw new Error(`Product ${productId} has an invalid price.`);
+        }
+
+        return {
+          price_data: {
+            currency: "usd",
+
+            product_data: {
+              name: product.pname,
+            },
+
+            // Convert a database price such as 19.99 into 1999 cents.
+            unit_amount: Math.round(price * 100),
+          },
+
+          quantity,
+        };
+      }),
+    );
+
+    const orderId = crypto.randomUUID();
+
+    orders.set(orderId, {
+      id: orderId,
+      customer,
+      items,
+      status: "pending",
+      createdAt: new Date().toISOString(),
+    });
+
+    const session = await stripe.checkout.sessions.create({
+      mode: "payment",
+
+      line_items: lineItems,
+
+      customer_email: customer.email,
+
+      metadata: {
+        orderId,
+      },
+
+      client_reference_id: orderId,
+
+      billing_address_collection: "required",
+
+      shipping_address_collection: {
+        allowed_countries: ["US"],
+      },
+
+      success_url:
+        `${process.env.CLIENT_URL}/checkout-success` +
+        "?session_id={CHECKOUT_SESSION_ID}",
+
+      cancel_url: `${process.env.CLIENT_URL}/checkout`,
+    });
+
+    const order = orders.get(orderId);
+
+    order.stripeSessionId = session.id;
+
+    orders.set(orderId, order);
+
+    return res.json({
+      url: session.url,
+    });
+  } catch (error) {
+    console.error("Create Checkout Session error:", error);
+
+    return res.status(500).json({
+      error: error.message || "Unable to create Stripe Checkout Session.",
+    });
+  }
+});
+
+function markOrderPaid(session) {
   const orderId = session.metadata?.orderId;
 
   if (!orderId) {
-    throw new Error("The Stripe session has no orderId.");
+    throw new Error("Stripe Session has no orderId.");
   }
 
   const order = orders.get(orderId);
@@ -117,14 +231,11 @@ async function markOrderPaid(session) {
     throw new Error(`Order ${orderId} was not found.`);
   }
 
-  // Stripe can send the same webhook more than once.
   if (order.status === "paid") {
-    console.log(`Order ${orderId} is already marked paid.`);
     return;
   }
 
   order.status = "paid";
-  order.stripeSessionId = session.id;
   order.paymentIntentId = session.payment_intent;
   order.amountPaid = session.amount_total;
   order.paidAt = new Date().toISOString();
@@ -134,7 +245,7 @@ async function markOrderPaid(session) {
   console.log("Order marked paid:", order);
 }
 
-async function markOrderFailed(session) {
+function markOrderFailed(session) {
   const orderId = session.metadata?.orderId;
 
   if (!orderId) {
@@ -151,8 +262,6 @@ async function markOrderFailed(session) {
   order.updatedAt = new Date().toISOString();
 
   orders.set(orderId, order);
-
-  console.log("Order payment failed:", order);
 }
 
 const PORT = process.env.PORT || 5000;
