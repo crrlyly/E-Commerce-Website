@@ -1,6 +1,37 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { createAccount } from "../../services/authApi";
+import { useNavigate } from "react-router-dom";
+
 
 export default function CreateAccountPage() {
+  const navigate = useNavigate();
+  
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email:"",
+    password:""
+  })
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const data = await createAccount(formData);
+      console.log(data)
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
   return (
     <div className="w-full h-dvh bg-gray-100 flex items-center justify-center gap-10">
       <div className="max-w-130 w-5/6 min-h-[75%] bg-white border border-gray-300 rounded-4xl flex flex-col items-center justify-center pt-5 ap-3 px-5">
@@ -14,28 +45,32 @@ export default function CreateAccountPage() {
           Join STORE and unlock a better shopping experience
         </p>
 
-        <form className="mx-5 mb-5" action="/action_page.php">
+        <form className="mx-5 mb-5" onSubmit={handleSubmit}>
         <label htmlFor="fullName">Full Name:</label>
           <br />
-          <textarea
+          <input
             placeholder="First and last name..."
             className="resize-none border border-gray-300 p-2 w-full rounded-md"
             id="fullName"
             name="fullName"
             rows="1"
             cols="40"
-          ></textarea>
+            value={formData.fullName}
+            onChange={handleChange}
+          ></input>
           <br />
           <label htmlFor="email">Email:</label>
           <br />
-          <textarea
+          <input
             placeholder="you@example.com"
             className="resize-none border border-gray-300 p-2 w-full rounded-md"
             id="email"
             name="email"
             rows="1"
             cols="40"
-          ></textarea>
+            value={formData.email}
+            onChange={handleChange}
+          ></input>
           <br />
           <label htmlFor="password">Password:</label>
           <br />
@@ -47,6 +82,8 @@ export default function CreateAccountPage() {
             rows="1"
             cols="40"
             type="password"
+            value={formData.password}
+            onChange={handleChange}
           ></input>
           <br />
           <br />

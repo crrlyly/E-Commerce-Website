@@ -1,5 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { userLogout } from "../../services/authApi";
+
 export default function ProfilePage() {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+  try {
+    await userLogout();
+    navigate("/welcome");
+  } catch (error) {
+    console.error(error);
+  }
+};
+
   return (
     <div className="w-full min-h-screen bg-black/5 flex flex-col items-center">
       <div className="w-[85%] max-w-175 mx-10 mt-30 mb-20">
@@ -65,12 +78,12 @@ export default function ProfilePage() {
               </span>
               <h1 className="font-semibold text-[1.1rem]">Order History</h1>
             </Link>
-            <Link to="/welcome" className="w-full flex h-1/3 border border-black/20 rounded-b-3xl items-center pl-5">
+            <button onClick={handleLogout} className="w-full flex h-1/3 border border-black/20 rounded-b-3xl items-center pl-5">
               <span class="material-symbols-outlined text-3xl! mr-3">
                 logout
               </span>
               <h1 className="font-semibold text-[1.1rem]">Sign Out</h1>
-            </Link>
+            </button>
           </div>
         </div>
       </div>

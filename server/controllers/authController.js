@@ -4,7 +4,7 @@ import db from "../config/db.js";
 export async function signup(req, res) {
   try {
     console.log(req.body);
-    
+
     const {
       email,
       password,
@@ -16,8 +16,8 @@ export async function signup(req, res) {
 
     const [existing] = await db.execute(
       `
-      SELECT id
-      FROM users
+      SELECT custId
+      FROM customer
       WHERE email = ?
       LIMIT 1
       `,
@@ -39,7 +39,7 @@ export async function signup(req, res) {
 
     const [result] = await db.execute(
       `
-      INSERT INTO users (
+      INSERT INTO customer (
         email,
         password_hash,
         fname,
@@ -159,4 +159,22 @@ export async function login(req, res) {
       error: "Unable to enter account.",
     });
   }
+}
+
+export async function logout(req, res){
+  req.session.destroy((error) => {
+    if(error){
+      console.error("Logout error: ", error)
+
+      return res.status(500).json({
+        error: "Unable to log out."
+      })
+    }
+
+    res.clearCookie("shop_session")
+
+    return res.status(200).json({
+      message: "Logged out successfully."
+    })
+  })
 }

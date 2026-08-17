@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { userSignin } from "../../services/authApi";
+import { useNavigate } from "react-router-dom";
 
 export default function SignInPage() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -21,6 +24,7 @@ export default function SignInPage() {
     try {
       const data = await userSignin(formData);
       console.log(data)
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
