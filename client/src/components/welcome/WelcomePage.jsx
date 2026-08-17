@@ -1,3 +1,6 @@
+
+import { Link } from "react-router-dom";
+
 export default function WelcomePage() {
   return (
     <div className="w-full h-dvh bg-gray-100 flex items-center justify-center gap-10">
@@ -12,18 +15,18 @@ export default function WelcomePage() {
 
         <p className="px-5 text-gray-600 text-center">Sign in to access your profile, favorites, and order history.</p>
 
-        <button className="w-full text-white bg-green-900 py-4 rounded-2xl flex items-center justify-center">
+        <Link to="/signin" className="w-full text-white bg-green-900 py-4 rounded-2xl flex items-center justify-center">
           <span class="material-symbols-outlined mr-2">login</span> Sign in
-        </button>
-        <button className="font-bold w-full py-4 bg-gray-50 border border-gray-200 rounded-2xl flex items-center justify-center">
+        </Link>
+        <Link to="/register" className="font-bold w-full py-4 bg-gray-50 border border-gray-200 rounded-2xl flex items-center justify-center">
           <span class="material-symbols-outlined mr-2">person_add</span> Create
           Account
-        </button>
+        </Link>
 
-        <div className="text-gray-500 font-semibold mt-5 flex items-center mb-10">
+        <Link to="/" className="text-gray-500 font-semibold mt-5 flex items-center mb-10">
           <span class="material-symbols-outlined mr-2">keyboard_backspace</span>
           Back to Shop
-        </div>
+        </Link>
       </div>
     </div>
   );

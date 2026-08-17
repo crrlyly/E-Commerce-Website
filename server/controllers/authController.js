@@ -3,14 +3,16 @@ import db from "../config/db.js";
 
 export async function signup(req, res) {
   try {
+    console.log(req.body);
+    
     const {
       email,
       password,
-      firstName,
-      lastName,
+      fullName
     } = req.body;
 
     const normalizedEmail = email.trim().toLowerCase();
+    const [firstName, lastName] = fullName.trim().toLowerCase().split(" ");
 
     const [existing] = await db.execute(
       `
@@ -40,8 +42,8 @@ export async function signup(req, res) {
       INSERT INTO users (
         email,
         password_hash,
-        first_name,
-        last_name
+        fname,
+        lname
       )
       VALUES (?, ?, ?, ?)
       `,
@@ -76,6 +78,85 @@ export async function signup(req, res) {
 
     return res.status(500).json({
       error: "Unable to create account.",
+    });
+  }
+}
+
+export async function login(req, res) {
+
+  // 1. Get body of request
+  // 2. Find the row in database based on email
+  // 3. unhash the database password
+  // 4. compare the password 
+  // 5. If both are the same then log in and create session
+  // 6. Else, display error message
+
+  try {
+    const {
+      email,
+      password,
+    } = req.body;
+
+    const normalizedEmail = email.toLowerCase();
+
+    const [result] = await db.query(
+      `
+      SELECT custId, password_hash
+      from customer
+      where email = ?
+      LIMIT 1
+      `,
+      [
+        normalizedEmail,
+      ],
+    );
+
+    const user = result[0];
+
+    if(!user){
+      return res.status(401).json({
+        error:"Invalid email or password."
+      })
+    }
+
+    const passwordMatches = await argon2.verify(
+      user.password_hash,
+      password
+    )
+
+    if(!passwordMatches) {
+      return res.status(401).json({
+        error: "Invalid email or password."
+      })
+    }
+
+    req.session.regenerate((error) => {
+      if (error) {
+        return res.status(500).json({
+          error: "Unable to create session.",
+        });
+      }
+
+      req.session.userId = result.custId;
+
+      req.session.save((saveError) => {
+        if (saveError) {
+          return res.status(500).json({
+            error: "Unable to save session.",
+          });
+        }
+      });
+
+      return res.status(201).json({
+        message: "Login successful."
+      });
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      error: "Unable to enter account.",
     });
   }
 }

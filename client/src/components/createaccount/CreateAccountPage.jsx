@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function CreateAccountPage() {
   return (
     <div className="w-full h-dvh bg-gray-100 flex items-center justify-center gap-10">
@@ -8,7 +10,7 @@ export default function CreateAccountPage() {
         </div>
 
         <h1 className="font-bold text-2xl uppercase">Create your account</h1>
-        <p className="px-2 text-gray-600 text-center mb-4">
+        <p className="px-2 text-gray-600 text-center mb-4 pt-3 ">
           Join STORE and unlock a better shopping experience
         </p>
 
@@ -61,7 +63,7 @@ export default function CreateAccountPage() {
           <h1 className="text-gray-500 flex items-center">
             Already have an account?
           </h1>
-          <a className="ml-1 underline">Sign in.</a>
+          <Link to="/signin" className="ml-1 underline">Sign in.</Link>
         </div>
       </div>
     </div>
