@@ -178,3 +178,54 @@ export async function logout(req, res){
     })
   })
 }
+
+export async function getCurrentUser(req,res){
+  try {
+    const userId = req.session.userId;
+
+    // No userId in session = not logged in
+    if (!userId) {
+      return res.status(401).json({
+        error: "Not logged in.",
+      });
+    }
+
+    const [rows] = await db.execute(
+      `
+      SELECT
+        custId,
+        email,
+        fname,
+        lname,
+        phone_num,
+        username,
+        dob,
+        address,
+        profile_pic
+      FROM customer
+      WHERE custId = ?
+      LIMIT 1
+      `,
+      [userId],
+    );
+
+    const user = rows[0];
+
+    if (!user) {
+      return res.status(404).json({
+        error: "User not found.",
+      });
+    }
+
+    return res.status(200).json({
+      user: user,
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      error: "Unable to get current user.",
+    });
+  }
+}

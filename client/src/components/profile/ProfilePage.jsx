@@ -1,8 +1,27 @@
 import { Link, useNavigate } from "react-router-dom";
 import { userLogout } from "../../services/authApi";
+import { getMe } from "../../services/authApi";
+import { useEffect, useState } from "react";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    async function loadUser() {
+      try {
+        const data = await getMe();
+
+        setUser(data.user);
+
+        console.log(data.user)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    loadUser();
+  }, [])
 
   const handleLogout = async () => {
   try {
@@ -36,7 +55,7 @@ export default function ProfilePage() {
                 person
               </span>
             </div>
-            <h1 className="text-3xl font-bold">Carly Chick</h1>
+            <h1 className="text-3xl font-bold">{user?.fname} {user?.lname}</h1>
             <div className="flex gap-2">
               <span class="material-symbols-outlined">mail</span>
               carlyfrances118@gmail.com
@@ -77,6 +96,12 @@ export default function ProfilePage() {
                 order_approve
               </span>
               <h1 className="font-semibold text-[1.1rem]">Order History</h1>
+            </Link>
+            <Link to="/editprofile" className="w-full flex h-1/3 border border-black/20 items-center pl-5">
+              <span class="material-symbols-outlined text-3xl! mr-3">
+                edit
+              </span>
+              <h1 className="font-semibold text-[1.1rem]">Edit Profile</h1>
             </Link>
             <button onClick={handleLogout} className="w-full flex h-1/3 border border-black/20 rounded-b-3xl items-center pl-5">
               <span class="material-symbols-outlined text-3xl! mr-3">

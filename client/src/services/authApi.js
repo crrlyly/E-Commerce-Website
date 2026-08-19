@@ -44,3 +44,19 @@ export async function userLogout() {
   console.log("Status:", res.status);
   return res.json();
 }
+
+export async function getMe(){
+  const res = await fetch(`${API_URL}/me`, {
+    method: "GET",
+    credentials: "include",
+  });
+  console.log("Status: ", res.status)
+  const data = res.json();
+
+
+  if (!res.ok) {
+    throw new Error(data.error || "Unable to get current user.");
+  }
+
+  return data;
+}
