@@ -55,7 +55,7 @@ export default function ProfilePage() {
                 person
               </span>
             </div>
-            <h1 className="text-3xl font-bold">{user?.fname} {user?.lname}</h1>
+            <h1 className="text-3xl font-bold">{user?.fname || "none"} {user?.lname || "none"}</h1>
             <div className="flex gap-2">
               <span class="material-symbols-outlined">mail</span>
               carlyfrances118@gmail.com

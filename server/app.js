@@ -25,7 +25,6 @@ app.use(
 app.use(express.json());
 
 app.use(sessionMiddleware);
-
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
@@ -42,7 +41,6 @@ app.get("/api/test-session", (req, res) => {
     visits: req.session.visits,
   });
 });
-
 
 app.get("/", (req, res) => {
   res.send("API is running");

@@ -50,10 +50,12 @@ export async function getMe(){
     method: "GET",
     credentials: "include",
   });
-  console.log("Status: ", res.status)
-  const data = res.json();
 
+  const data = await res.json();
 
+  console.log("GET /me status:", res.status);
+  console.log("GET /me response:", data);
+ 
   if (!res.ok) {
     throw new Error(data.error || "Unable to get current user.");
   }
