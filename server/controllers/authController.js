@@ -183,7 +183,8 @@ export async function getCurrentUser(req, res) {
         username,
         dob,
         address,
-        profile_pic
+        profile_pic,
+        created_at
       FROM customer
       WHERE custId = ?
       LIMIT 1
