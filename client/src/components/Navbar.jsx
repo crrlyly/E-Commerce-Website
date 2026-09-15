@@ -50,13 +50,13 @@ function Navbar() {
           >
             Shop
           </a>
-          <Link
+          {/* <Link
             to="/lookbook"
             className="transition:text duration-200 hover:text-black"
             href=""
           >
             Lookbook
-          </Link>
+          </Link> */}
           <a className="transition:text duration-200 hover:text-black" href="">
             About
           </a>

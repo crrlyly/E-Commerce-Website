@@ -23,7 +23,7 @@ export default function SideBar({ ifOpen, close }) {
         <div className="flex flex-col px-5 font-bold uppercase text-[1.3rem] gap-4">
           <a href="">home</a>
           <a href="">shop</a>
-          <Link to="/lookbook">lookbook</Link>
+          {/* <Link to="/lookbook">lookbook</Link> */}
           <a href="">about</a>
         </div>
         <div className="absolute bottom-0 flex gap-2 uppercase pl-5 pt-3 mb-5 w-full border-t border-gray-700">

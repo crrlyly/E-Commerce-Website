@@ -1,7 +1,7 @@
 import ItemCard from "../cards/ItemCard";
 import PageTurner from "../PageTurner";
 import { useState, useEffect } from "react";
-import { getProducts } from "../../services/productsApi";
+import { getProducts, getCategoryProducts } from "../../services/productsApi";
 import { getCategories } from "../../services/categoryApi";
 // import DropDown from "../DropDown";
 
@@ -17,14 +17,21 @@ export default function ProductsPage() {
   const [page, setPage] = useState(1);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
     async function loadProducts() {
-      const data = await getProducts(page);
+      let data;
+      if (selectedCategory !== "") {
+        data = await getCategoryProducts(selectedCategory);
+      } else {
+        data = await getProducts();
+      }
+
       setProducts(data);
     }
     loadProducts();
-  }, [page]);
+  }, [selectedCategory]);
 
   const start = (page - 1) * 8;
   const end = Math.min(products.length, page * 8);
@@ -37,11 +44,13 @@ export default function ProductsPage() {
     }
     loadCategories();
   }, []);
-
   console.log(categories.category_name);
 
   return (
-    <div id="shop" className=" md:px-30 w-full min-h-150 bg-white flex flex-col py-20 px-5 gap-4">
+    <div
+      id="shop"
+      className=" md:px-30 w-full min-h-150 bg-white flex flex-col py-20 px-5 gap-4"
+    >
       <h1 className="md:text-5xl md:font-bold text-4xl font-semibold">
         All Products
       </h1>
@@ -54,8 +63,13 @@ export default function ProductsPage() {
           className="xl:h-13 h-15 w-50 px-3 block bg-white rounded-[15px] border border-gray-300 self-start"
           name="cars"
           id="cars"
+          value={selectedCategory}
+          onChange={(e) => {
+            setSelectedCategory(e.target.value);
+            setPage(1);
+          }}
         >
-          <option value="" selected disabled>
+          <option value="" >
             All Products
           </option>
           {categories.map((category) => (
