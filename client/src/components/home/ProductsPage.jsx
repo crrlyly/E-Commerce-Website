@@ -18,15 +18,11 @@ export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  
 
   useEffect(() => {
     async function loadProducts() {
-      let data;
-      if (selectedCategory !== "") {
-        data = await getCategoryProducts(selectedCategory);
-      } else {
-        data = await getProducts();
-      }
+      const data = await getProducts();
 
       setProducts(data);
     }
@@ -35,7 +31,9 @@ export default function ProductsPage() {
 
   const start = (page - 1) * 8;
   const end = Math.min(products.length, page * 8);
-  const visibleProducts = products.slice(start, end);
+  const visibleProducts = products.filter((p)=>selectedCategory === "" ? p : p.category_name.toLowerCase() === selectedCategory.toLowerCase()).slice(start, end);
+
+
 
   useEffect(() => {
     async function loadCategories() {
@@ -61,8 +59,6 @@ export default function ProductsPage() {
       <div className="flex md:flex-row flex-col gap-3">
         <select
           className="xl:h-13 h-15 w-50 px-3 block bg-white rounded-[15px] border border-gray-300 self-start"
-          name="cars"
-          id="cars"
           value={selectedCategory}
           onChange={(e) => {
             setSelectedCategory(e.target.value);
@@ -82,10 +78,8 @@ export default function ProductsPage() {
           ))}
         </select>
 
-        <select
+        {/* <select
           className="xl:h-13 md:ml-auto h-15 w-40 px-3 block bg-white rounded-[15px] border border-gray-300 self-start"
-          name="cars"
-          id="cars"
         >
           <option value="" selected disabled>
             Sort by
@@ -93,7 +87,7 @@ export default function ProductsPage() {
           {sort.map((sortOption) => (
             <option value={sortOption.toLowerCase()}>{sortOption}</option>
           ))}
-        </select>
+        </select> */}
       </div>
 
       {/* grid with cards */}
