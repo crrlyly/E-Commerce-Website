@@ -1,9 +1,9 @@
 
-export default function PageTurner({page, setPage, products, startPage, endPage}) {
+export default function PageTurner({page, setPage, products, endPage}) {
   console.log(endPage)
   return (
     <div className="md:mt-10 md:flex mt-5 inline-flex items-center place-content-around gap-2">
-      <p className=" text-gray-600 font-light">Showing {startPage+1}-{endPage} of {products.length} products</p>
+      {/* <p className=" text-gray-600 font-light">Showing {startPage+1}-{endPage} of {products.length} products</p> */}
       <div className="xl:scale-80 flex justify-between md:gap-2">
         <button
           onClick={() => setPage((p) => Math.max(1, p - 1))}

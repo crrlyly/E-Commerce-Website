@@ -66,7 +66,7 @@ function Navbar() {
         </div>
 
         <div className="flex items-center gap-3 md:gap-5">
-          <button
+          {/* <button
             onClick={() => setSearchOpen(true)}
             className="px-2 py-2 
           cursor-pointer font-semibold text-slate-600 hover:bg-black/10 flex 
@@ -75,7 +75,7 @@ function Navbar() {
             <span className="material-symbols-outlined text-[1.4rem]! leading-none">
               search
             </span>
-          </button>
+          </button> */}
 
           {/* TODO */}
           <button

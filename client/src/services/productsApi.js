@@ -19,3 +19,15 @@ export async function getCategoryProducts(category) {
   const res = await fetch(`${API_URL}/category/${category}`);
   return res.json();
 }
+
+
+function reverseList(head) {
+  let prev = head
+  prev.next = null
+  while(head !== null){
+    let curr = head.next
+    curr.next = prev
+    prev.next = curr
+    head = head.next
+  }
+}

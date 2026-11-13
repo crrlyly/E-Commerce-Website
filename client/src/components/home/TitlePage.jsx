@@ -32,11 +32,11 @@ function TitlePage() {
               arrow_forward
             </span>
           </a>
-          <button
+          {/* <button
             className={`${styles.noMarginLeft} ml-5 whitespace-nowrap md:mt-0 md:inline-block md:mr-5 md:py-4 md:font-semibold text-[1.3rem] mt-5 inline-flex items-center justify-center gap-2 rounded-2xl px-10 py-5 bg-white content-center border-2 border-gray-200`}
           >
             View Lookbook
-          </button>
+          </button> */}
         </div>
         <Stats></Stats>
       </div>

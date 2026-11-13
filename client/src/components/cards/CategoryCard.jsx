@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "../../styles/home/categoryCard.module.css";
+// import styles from "../../styles/home/categoryCard.module.css";
 import { getCategoryItemCounts } from "../../services/categoryApi.js";
 
 
@@ -35,11 +35,11 @@ const CategoryCard = ({ area, category }) => {
         <h2 className="md:self-center md:font-bold md:text-3xl md:text-start md:[grid-area:title] text-white font-semibold text-2xl inline">
           {category.category_name}
         </h2>
-        <button
+        {/* <button
           className={`md:transition-[transform,background] md:duration-500 md:group-hover:scale-110 md:group-hover:bg-white md:scale-100 md:group-hover:text-black  ${styles.hideButton} md:flex md:justify-center md:items-center md:px-3 md:py-3 md:rounded-full md:self-center md:justify-self-end md:[grid-area:button] text-white bg-white/10 backdrop-blur-md py-2 rounded-2xl`}
         >
           <span className="material-symbols-outlined ">arrow_outward</span>
-        </button>
+        </button> */}
       </div>
       <div className="inset-0 bg-linear-to-b from-transparent to-black/70 z-10 absolute w-full h-full top-0 left-0 rounded-2xl"></div>
       <img

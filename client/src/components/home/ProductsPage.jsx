@@ -1,17 +1,10 @@
 import ItemCard from "../cards/ItemCard";
 import PageTurner from "../PageTurner";
 import { useState, useEffect } from "react";
-import { getProducts, getCategoryProducts } from "../../services/productsApi";
+import { getProducts } from "../../services/productsApi";
 import { getCategories } from "../../services/categoryApi";
 // import DropDown from "../DropDown";
 
-const sort = [
-  "Featured",
-  "Newest",
-  "Price: Low to High",
-  "Price: High to Low",
-  "Heightest Rated",
-];
 
 export default function ProductsPage() {
   const [page, setPage] = useState(1);
@@ -101,7 +94,6 @@ export default function ProductsPage() {
         page={page}
         setPage={setPage}
         products={products}
-        startPage={start}
         endPage={end}
       />
     </div>
